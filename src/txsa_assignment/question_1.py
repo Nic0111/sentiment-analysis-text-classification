@@ -42,23 +42,33 @@ FALLBACK_STOPWORDS = frozenset(
 
 @dataclass(frozen=True)
 class FilteringResult:
+    """Tokens kept after filtering and stop words found in the source text."""
+
     filtered_tokens: list[str]
     stopwords_found: list[str]
 
 
 def load_text(path: Path) -> str:
+    """Read a UTF-8 text file and normalize line breaks to spaces."""
+
     return path.read_text(encoding="utf-8").replace("\r\n", "\n").replace("\n", " ")
 
 
 def tokenize_with_split(text: str) -> list[str]:
+    """Tokenize by splitting only on whitespace."""
+
     return text.split()
 
 
 def tokenize_with_regex(text: str) -> list[str]:
+    """Tokenize into words and punctuation with a regular expression."""
+
     return re.findall(r"[A-Za-z]+(?:-[A-Za-z]+)?|[0-9]+|[^\w\s]", text)
 
 
 def tokenize_with_nltk(text: str) -> list[str]:
+    """Tokenize with NLTK's Treebank tokenizer without requiring downloads."""
+
     return treebank_tokens(text)
 
 
@@ -74,6 +84,8 @@ def get_stopwords() -> set[str]:
 
 
 def remove_stopwords_and_punctuation(tokens: list[str]) -> FilteringResult:
+    """Remove English stop words and punctuation from token boundaries."""
+
     stopwords = get_stopwords()
     punctuation = set(string.punctuation)
 
@@ -100,10 +112,14 @@ def remove_stopwords_and_punctuation(tokens: list[str]) -> FilteringResult:
 
 
 def format_section(title: str, value: object) -> str:
+    """Format CLI output consistently for report capture."""
+
     return f"\n## {title}\n{pformat(value, width=100)}"
 
 
 def build_output(text: str) -> str:
+    """Build the full Question 1 output from the provided text."""
+
     split_tokens = tokenize_with_split(text)
     regex_tokens = tokenize_with_regex(text)
     nltk_tokens = tokenize_with_nltk(text)
@@ -122,6 +138,8 @@ def build_output(text: str) -> str:
 
 
 def parse_args() -> argparse.Namespace:
+    """Parse command-line arguments."""
+
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "data_path",
@@ -134,6 +152,8 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> None:
+    """Run the Question 1 analysis and print report-ready output."""
+
     args = parse_args()
     text = load_text(args.data_path)
     print(build_output(text))
