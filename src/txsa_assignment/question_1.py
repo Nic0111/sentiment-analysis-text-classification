@@ -63,7 +63,7 @@ def tokenize_with_split(text: str) -> list[str]:
 def tokenize_with_regex(text: str) -> list[str]:
     """Tokenize into words and punctuation with a regular expression."""
 
-    return re.findall(r"[A-Za-z]+(?:-[A-Za-z]+)?|[0-9]+|[^\w\s]", text)
+    return re.findall(r"\b\w+\b|[^\w\s]", text)
 
 
 def tokenize_with_nltk(text: str) -> list[str]:
