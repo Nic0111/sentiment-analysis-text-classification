@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "nltk>=3.9.2",
+    "textblob>=0.19.0",
 ]
 
 [project.optional-dependencies]
@@ -15,6 +16,9 @@ dev = [
 
 [project.scripts]
 txsa-q1 = "txsa_assignment.question_1:main"
+txsa-q2 = "txsa_assignment.question_2:main"
+txsa-q3 = "txsa_assignment.question_3:main"
+txsa-q4 = "txsa_assignment.question_4:main"
 
 [build-system]
 requires = ["uv_build>=0.11.8,<0.12.0"]
