@@ -10,11 +10,11 @@ future runs are easy to inspect and repeat.
 ## Project Map
 
 - `data/Data_1.txt` - source text for Part A Q1 and Q2.
-- `src/txsa_assignment/question_1.py` - Part A Q1 implementation.
-- `tests/test_question_1.py` - focused checks for the tokenization and filtering
-  behavior.
-- `docs/question-1-report.md` - report-ready explanation and output summary for
-  Part A Q1.
+- `data/Data_2.txt` - source sentence for Part A Q3.
+- `data/Data_3.txt` - training corpus and target sentence for Part A Q4.
+- `src/txsa_assignment/question_*.py` - Part A implementations.
+- `tests/test_question_*.py` - focused checks for the implemented behavior.
+- `docs/question-*-report.md` - report-ready explanations and output summaries.
 
 ## Setup
 
@@ -34,6 +34,14 @@ Or use the script entry point:
 
 ```bash
 uv run txsa-q1 data/Data_1.txt
+```
+
+## Run The Remaining Part A Questions
+
+```bash
+uv run python -m txsa_assignment.question_2 data/Data_1.txt
+uv run python -m txsa_assignment.question_3 data/Data_2.txt
+uv run python -m txsa_assignment.question_4 data/Data_3.txt
 ```
 
 ## Run Tests

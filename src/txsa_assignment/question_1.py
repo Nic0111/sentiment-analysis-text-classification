@@ -13,7 +13,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from pprint import pformat
 
-from nltk.tokenize import TreebankWordTokenizer
+from txsa_assignment.token_utils import treebank_tokens
 
 
 FALLBACK_STOPWORDS = frozenset(
@@ -59,14 +59,7 @@ def tokenize_with_regex(text: str) -> list[str]:
 
 
 def tokenize_with_nltk(text: str) -> list[str]:
-    tokenizer = TreebankWordTokenizer()
-    sentence_like_chunks = re.split(r"(?<=[.!?])\s+(?=[A-Z])", text.strip())
-
-    tokens: list[str] = []
-    for chunk in sentence_like_chunks:
-        tokens.extend(tokenizer.tokenize(chunk))
-
-    return tokens
+    return treebank_tokens(text)
 
 
 def get_stopwords() -> set[str]:
