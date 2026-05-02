@@ -7,6 +7,7 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 from pprint import pformat
+from typing import cast
 
 from txsa_assignment.question_1 import load_text, tokenize_with_nltk
 
@@ -136,15 +137,17 @@ def tokenize_with_stanza(text: str) -> tuple[list[str], str]:
     """Tokenize with the installed Stanza English tokenize processor."""
 
     import stanza
+    from stanza.models.common.doc import Document
+    from stanza.pipeline.core import DownloadMethod
 
     pipeline = stanza.Pipeline(
         lang="en",
         processors="tokenize",
         tokenize_no_ssplit=True,
-        download_method=None,
+        download_method=DownloadMethod.NONE,
         verbose=False,
     )
-    document = pipeline(text)
+    document = cast(Document, pipeline(text))
     return [token.text for sentence in document.sentences for token in sentence.tokens], "Stanza English tokenizer"
 
 
