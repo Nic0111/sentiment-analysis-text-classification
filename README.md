@@ -24,6 +24,27 @@ Install dependencies with `uv`:
 uv sync --extra dev
 ```
 
+## spaCy And Stanza Setup
+
+Q5 requires the real spaCy and Stanza tokenizers. Install the packages and
+download their English resources before running Q5:
+
+```bash
+uv run python -m spacy download en_core_web_sm
+uv run python -c "import stanza; stanza.download('en', processors='tokenize')"
+```
+
+Quick checks:
+
+```bash
+uv run python -c "import spacy; nlp = spacy.load('en_core_web_sm'); print([t.text for t in nlp('This is a test.')])"
+uv run python -c "import stanza; nlp = stanza.Pipeline('en', processors='tokenize', download_method=None, verbose=False); print([t.text for s in nlp('This is a test.').sentences for t in s.tokens])"
+```
+
+Official references: spaCy model downloads are handled through
+`python -m spacy download en_core_web_sm`, and Stanza models are downloaded with
+`stanza.download(...)`.
+
 ## Run Part A Q1
 
 ```bash
@@ -42,6 +63,7 @@ uv run txsa-q1 data/Data_1.txt
 uv run python -m txsa_assignment.question_2 data/Data_1.txt
 uv run python -m txsa_assignment.question_3 data/Data_2.txt
 uv run python -m txsa_assignment.question_4 data/Data_3.txt
+uv run python -m txsa_assignment.question_5 data/Data_1.txt
 ```
 
 ## Run Tests
