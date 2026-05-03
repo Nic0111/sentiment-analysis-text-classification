@@ -2,6 +2,7 @@ from pathlib import Path
 
 from txsa_assignment.question_1 import (
     FilteringResult,
+    get_stopwords,
     load_text,
     remove_stopwords_and_punctuation,
     tokenize_with_nltk,
@@ -46,6 +47,13 @@ def test_nltk_tokenization_is_deterministic() -> None:
     assert len(tokens) == 94
 
 
+def test_stopwords_are_deterministic() -> None:
+    stopwords = get_stopwords()
+
+    assert "may" in stopwords
+    assert "each" not in stopwords
+
+
 def test_filtering_removes_stopwords_case_insensitively_and_punctuation() -> None:
     result = remove_stopwords_and_punctuation(["The", "Classification", "is", "."])
 
@@ -64,3 +72,5 @@ def test_filtering_result_includes_stopwords_and_filtered_tokens() -> None:
     assert "Classification" in result.filtered_tokens
     assert "." not in result.filtered_tokens
     assert "the" in result.stopwords_found
+    assert "may" in result.stopwords_found
+    assert "each" not in result.stopwords_found
