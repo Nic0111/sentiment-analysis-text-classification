@@ -70,21 +70,44 @@ without requiring the text to be manually split.
 
 ## 2. Most Suitable Tokenization Operation
 
-NLTK tokenization is the most suitable option for text analytics in this case.
-The split function is too basic because tokens such as `input.`, `tasks,`, and
-`labels;` keep punctuation attached to the word. This can create duplicate or
-misleading terms during later analysis. The regular expression tokenizer improves
-on split tokenization by separating punctuation, but NLTK is preferable because
-it is a standard NLP tokenizer designed to handle common English tokenization
-patterns consistently.
+NLTK tokenization is the most suitable tokenization method for this corpus
+because it produces clean word-level tokens while handling sentence punctuation
+more consistently than the split function and with less manual rule design than
+the regular expression method. The obtained output shows that NLTK separates
+punctuation marks such as `.`, `,`, and `;` from surrounding words, while keeping
+the meaningful hyphenated term `open-class` as one token. This makes the token
+list more suitable for later text analytics tasks such as stop-word removal,
+frequency analysis, and feature extraction.
+
+The split function is the simplest method because it only separates tokens at
+whitespace. However, the output shows that punctuation remains attached to words,
+for example `input.`, `tasks,`, `labels;`, and `classified.`. This can create
+inconsistent tokens because `input` and `input.` would be treated as different
+items even though they represent the same word. Therefore, split tokenization is
+easy to implement but too basic for reliable text analytics.
+
+The regular expression tokenizer improves on the split function because it
+separates punctuation from words and gives more control over token boundaries.
+For example, it separates `input` and `.` instead of keeping `input.` as one
+token. However, this method depends heavily on the written pattern. In the
+obtained output, `open-class` is split into `open`, `-`, and `class`, which may
+not be desirable when the hyphenated expression should be interpreted as one
+term. Thus, regex tokenization is flexible but requires careful manual design.
+
+Therefore, NLTK tokenization is reaffirmed as the most suitable option for this
+question. It gives a cleaner and more linguistically appropriate tokenization
+output than the split function, while avoiding some of the manual rule problems
+seen in the regular expression method. For this corpus, NLTK provides the best
+balance between correctness, readability, and suitability for later text
+analytics processing.
 
 ## 3. Stop Words and Punctuation Removal
 
 The stop words found in the text corpus are:
 
 ```text
-['a', 'all', 'and', 'are', 'be', 'for', 'from', 'has', 'in', 'is', 'may', 'not',
- 'of', 'other', 'the']
+['a', 'all', 'and', 'are', 'be', 'each', 'for', 'from', 'has', 'in', 'is',
+ 'not', 'of', 'other', 'the']
 ```
 
 After removing stop words and punctuation from the NLTK tokens, the remaining
@@ -92,10 +115,10 @@ tokens are:
 
 ```text
 ['Classification', 'task', 'choosing', 'correct', 'class', 'label', 'given',
- 'input', 'basic', 'classification', 'tasks', 'each', 'input', 'considered',
+ 'input', 'basic', 'classification', 'tasks', 'input', 'considered',
  'isolation', 'inputs', 'set', 'labels', 'defined', 'advance', 'basic',
  'classification', 'task', 'number', 'interesting', 'variants', 'example',
- 'multiclass', 'classification', 'each', 'instance', 'assigned',
+ 'multiclass', 'classification', 'instance', 'may', 'assigned',
  'multiple', 'labels', 'open-class', 'classification', 'set', 'labels',
  'defined', 'advance', 'sequence', 'classification', 'list', 'inputs',
  'jointly', 'classified']
