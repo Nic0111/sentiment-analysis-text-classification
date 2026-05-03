@@ -13,6 +13,7 @@ future runs are easy to inspect and repeat.
 - `data/Data_2.txt` - source sentence for Part A Q3.
 - `data/Data_3.txt` - training corpus and target sentence for Part A Q4.
 - `src/txsa_assignment/question_*.py` - Part A implementations.
+- `notebooks/question_*.ipynb` - notebook versions for assignment submission.
 - `tests/test_question_*.py` - focused checks for the implemented behavior.
 - `docs/question-*-report.md` - report-ready explanations and output summaries.
 
@@ -56,6 +57,19 @@ Or use the script entry point:
 ```bash
 uv run txsa-q1 data/Data_1.txt
 ```
+
+## Notebook Submissions
+
+Q1 and Q2 are available as Jupyter notebooks:
+
+```text
+notebooks/question_1_tokenization_filtering.ipynb
+notebooks/question_2_stemming.ipynb
+```
+
+Open them from the repository root so `data/Data_1.txt` resolves correctly. The
+notebooks also include a fallback path for running from inside the `notebooks`
+folder.
 
 ## Run The Remaining Part A Questions
 
