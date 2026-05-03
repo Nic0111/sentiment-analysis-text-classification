@@ -27,6 +27,11 @@ The vocabulary size from the training corpus is 10:
 ['</s>', '<s>', 'Danielle', 'He', 'I', 'a', 'book', 'by', 'different', 'read']
 ```
 
+The notebook also presents the preprocessed sentences in a table, followed by
+separate unigram and bigram count tables. These tables make the probability
+calculation traceable because every conditional probability is derived from the
+training-corpus counts.
+
 ## 2. Manual Unsmoothed Bigram Probability
 
 Using the unsmoothed bigram equation:
