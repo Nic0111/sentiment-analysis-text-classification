@@ -13,10 +13,12 @@ from dataclasses import dataclass
 from pathlib import Path
 from pprint import pformat
 
+import nltk
+from nltk.data import find
 from nltk.tokenize import word_tokenize
 
 
-FALLBACK_STOPWORDS = frozenset(
+ASSIGNMENT_STOPWORDS = frozenset(
     {
         "a",
         "all",
@@ -38,6 +40,8 @@ FALLBACK_STOPWORDS = frozenset(
         "to",
     }
 )
+PUNKT_RESOURCE = "tokenizers/punkt_tab"
+PUNKT_DOWNLOAD = "punkt_tab"
 
 
 @dataclass(frozen=True)
@@ -66,21 +70,26 @@ def tokenize_with_regex(text: str) -> list[str]:
     return re.findall(r"\b\w+\b|[^\w\s]", text)
 
 
+def ensure_punkt_available() -> None:
+    """Download NLTK Punkt data if word tokenization cannot find it."""
+
+    try:
+        find(PUNKT_RESOURCE)
+    except LookupError:
+        nltk.download(PUNKT_DOWNLOAD, quiet=True)
+
+
 def tokenize_with_nltk(text: str) -> list[str]:
     """Tokenize with NLTK's word tokenizer using Punkt sentence rules."""
 
+    ensure_punkt_available()
     return word_tokenize(text)
 
 
 def get_stopwords() -> set[str]:
-    """Return NLTK English stop words, falling back to a local set offline."""
+    """Return the fixed stop-word list used for this assignment."""
 
-    try:
-        from nltk.corpus import stopwords
-
-        return set(stopwords.words("english"))
-    except LookupError:
-        return set(FALLBACK_STOPWORDS)
+    return set(ASSIGNMENT_STOPWORDS)
 
 
 def remove_stopwords_and_punctuation(tokens: list[str]) -> FilteringResult:
