@@ -8,24 +8,9 @@ from pprint import pformat
 from typing import Any, cast
 
 from nltk import CFG, ChartParser, RegexpTagger, pos_tag
-from textblob.exceptions import MissingCorpusError
+from textblob import TextBlob
 
 from txsa_assignment.token_utils import treebank_tokens
-
-
-FALLBACK_POS_TAGS = {
-    "the": "DT",
-    "big": "JJ",
-    "black": "JJ",
-    "dog": "NN",
-    "barked": "VBD",
-    "at": "IN",
-    "white": "JJ",
-    "cat": "NN",
-    "and": "CC",
-    "chased": "VBD",
-    "away": "RB",
-}
 
 
 @dataclass(frozen=True)
@@ -51,31 +36,17 @@ def word_tokens(text: str) -> list[str]:
     return [token for token in treebank_tokens(text) if token not in string.punctuation]
 
 
-def fallback_tags(tokens: list[str]) -> list[tuple[str, str]]:
-    """Return deterministic tags for the assignment sentence."""
-
-    return [(token, FALLBACK_POS_TAGS.get(token.casefold(), "NN")) for token in tokens]
-
-
 def tag_with_nltk(tokens: list[str]) -> list[tuple[str, str]]:
-    """Tag with NLTK's POS tagger, falling back when corpus data is absent."""
+    """Tag tokens with NLTK's POS tagger."""
 
-    try:
-        return pos_tag(tokens)
-    except LookupError:
-        return fallback_tags(tokens)
+    return pos_tag(tokens)
 
 
-def tag_with_textblob(text: str, tokens: list[str]) -> list[tuple[str, str]]:
-    """Tag with TextBlob, falling back when TextBlob corpora are absent."""
+def tag_with_textblob(text: str) -> list[tuple[str, str]]:
+    """Tag text with TextBlob's POS tagger."""
 
-    try:
-        from textblob import TextBlob
-
-        tags = cast(list[tuple[Any, Any]], TextBlob(text).tags)
-        return [(str(word), str(tag)) for word, tag in tags]
-    except (ImportError, LookupError, MissingCorpusError):
-        return fallback_tags(tokens)
+    tags = cast(list[tuple[Any, Any]], TextBlob(text).tags)
+    return [(str(word), str(tag)) for word, tag in tags]
 
 
 def tag_with_regex(tokens: list[str]) -> list[tuple[str, str]]:
@@ -125,7 +96,7 @@ def analyze_text(text: str) -> PosResult:
     return PosResult(
         tokens=tokens,
         nltk_tags=tag_with_nltk(tokens),
-        textblob_tags=tag_with_textblob(text, tokens),
+        textblob_tags=tag_with_textblob(text),
         regex_tags=tag_with_regex(tokens),
         parse_trees=build_parse_trees(tokens),
     )
