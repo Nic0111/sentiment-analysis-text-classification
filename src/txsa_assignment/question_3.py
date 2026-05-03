@@ -8,9 +8,8 @@ from pprint import pformat
 from typing import Any, cast
 
 from nltk import CFG, ChartParser, RegexpTagger, pos_tag
+from nltk.tokenize import word_tokenize
 from textblob import TextBlob
-
-from txsa_assignment.token_utils import treebank_tokens
 
 
 @dataclass(frozen=True)
@@ -33,7 +32,7 @@ def load_text(path: Path) -> str:
 def word_tokens(text: str) -> list[str]:
     """Return word tokens without punctuation-only marks."""
 
-    return [token for token in treebank_tokens(text) if token not in string.punctuation]
+    return [token for token in word_tokenize(text) if token not in string.punctuation]
 
 
 def tag_with_nltk(tokens: list[str]) -> list[tuple[str, str]]:
