@@ -18,30 +18,6 @@ from nltk.data import find
 from nltk.tokenize import word_tokenize
 
 
-ASSIGNMENT_STOPWORDS = frozenset(
-    {
-        "a",
-        "all",
-        "an",
-        "and",
-        "are",
-        "be",
-        "for",
-        "from",
-        "has",
-        "in",
-        "is",
-        "it",
-        "may",
-        "not",
-        "of",
-        "other",
-        "the",
-        "to",
-    }
-)
-
-
 @dataclass(frozen=True)
 class FilteringResult:
     """Tokens kept after filtering and stop words found in the source text."""
@@ -80,9 +56,16 @@ def tokenize_with_nltk(text: str) -> list[str]:
 
 
 def get_stopwords() -> set[str]:
-    """Return the fixed stop-word list used for this assignment."""
+    """Return NLTK English stop words, downloading the corpus if needed."""
 
-    return set(ASSIGNMENT_STOPWORDS)
+    try:
+        find("corpora/stopwords")
+    except LookupError:
+        nltk.download("stopwords", quiet=True)
+
+    from nltk.corpus import stopwords
+
+    return set(stopwords.words("english"))
 
 
 def remove_stopwords_and_punctuation(tokens: list[str]) -> FilteringResult:

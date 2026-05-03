@@ -50,8 +50,8 @@ def test_nltk_tokenization_is_deterministic() -> None:
 def test_stopwords_are_deterministic() -> None:
     stopwords = get_stopwords()
 
-    assert "may" in stopwords
-    assert "each" not in stopwords
+    assert "each" in stopwords
+    assert "may" not in stopwords
 
 
 def test_filtering_removes_stopwords_case_insensitively_and_punctuation() -> None:
@@ -72,5 +72,5 @@ def test_filtering_result_includes_stopwords_and_filtered_tokens() -> None:
     assert "Classification" in result.filtered_tokens
     assert "." not in result.filtered_tokens
     assert "the" in result.stopwords_found
-    assert "may" in result.stopwords_found
-    assert "each" not in result.stopwords_found
+    assert "each" in result.stopwords_found
+    assert "may" not in result.stopwords_found
