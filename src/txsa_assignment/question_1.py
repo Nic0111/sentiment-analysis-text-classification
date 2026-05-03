@@ -40,8 +40,6 @@ ASSIGNMENT_STOPWORDS = frozenset(
         "to",
     }
 )
-PUNKT_RESOURCE = "tokenizers/punkt_tab"
-PUNKT_DOWNLOAD = "punkt_tab"
 
 
 @dataclass(frozen=True)
@@ -70,19 +68,14 @@ def tokenize_with_regex(text: str) -> list[str]:
     return re.findall(r"\b\w+\b|[^\w\s]", text)
 
 
-def ensure_punkt_available() -> None:
-    """Download NLTK Punkt data if word tokenization cannot find it."""
-
-    try:
-        find(PUNKT_RESOURCE)
-    except LookupError:
-        nltk.download(PUNKT_DOWNLOAD, quiet=True)
-
-
 def tokenize_with_nltk(text: str) -> list[str]:
     """Tokenize with NLTK's word tokenizer using Punkt sentence rules."""
 
-    ensure_punkt_available()
+    try:
+        find("tokenizers/punkt_tab")
+    except LookupError:
+        nltk.download("punkt_tab", quiet=True)
+
     return word_tokenize(text)
 
 
