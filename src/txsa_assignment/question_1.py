@@ -13,7 +13,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from pprint import pformat
 
-from txsa_assignment.token_utils import treebank_tokens
+from nltk.tokenize import word_tokenize
 
 
 FALLBACK_STOPWORDS = frozenset(
@@ -67,9 +67,9 @@ def tokenize_with_regex(text: str) -> list[str]:
 
 
 def tokenize_with_nltk(text: str) -> list[str]:
-    """Tokenize with NLTK's Treebank tokenizer without requiring downloads."""
+    """Tokenize with NLTK's word tokenizer using Punkt sentence rules."""
 
-    return treebank_tokens(text)
+    return word_tokenize(text)
 
 
 def get_stopwords() -> set[str]:

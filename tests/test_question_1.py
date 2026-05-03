@@ -33,8 +33,8 @@ def test_regex_tokenization_separates_punctuation() -> None:
 
     assert tokens[:6] == ["Classification", "is", "the", "task", "of", "choosing"]
     assert "." in tokens
-    assert "open-class" in tokens
-    assert len(tokens) == 94
+    assert ["open", "-", "class"] == tokens[tokens.index("open") : tokens.index("open") + 3]
+    assert len(tokens) == 96
 
 
 def test_nltk_tokenization_is_deterministic() -> None:
