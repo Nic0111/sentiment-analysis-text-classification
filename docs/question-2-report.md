@@ -14,8 +14,9 @@ surface forms.
 
 ## 2. Stemming Output
 
-The tokens were first tokenized with NLTK Treebank tokenization, then stop words
-and punctuation were removed before stemming.
+The tokens were first tokenized with the same NLTK `word_tokenize` approach used
+in Q1, then NLTK stop words and punctuation were removed before stemming. This
+keeps Q2 preprocessing consistent with the selected Q1 tokenization method.
 
 ### Regular Expression Stemmer
 

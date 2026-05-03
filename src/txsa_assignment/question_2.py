@@ -7,8 +7,7 @@ from pprint import pformat
 
 from nltk.stem import LancasterStemmer, PorterStemmer, RegexpStemmer
 
-from txsa_assignment.question_1 import remove_stopwords_and_punctuation
-from txsa_assignment.token_utils import treebank_tokens
+from txsa_assignment.question_1 import remove_stopwords_and_punctuation, tokenize_with_nltk
 
 
 @dataclass(frozen=True)
@@ -30,7 +29,7 @@ def load_text(path: Path) -> str:
 def content_tokens(text: str) -> list[str]:
     """Return punctuation-free content tokens for stemming demonstrations."""
 
-    return remove_stopwords_and_punctuation(treebank_tokens(text)).filtered_tokens
+    return remove_stopwords_and_punctuation(tokenize_with_nltk(text)).filtered_tokens
 
 
 def stem_with_regex(tokens: list[str]) -> list[str]:
