@@ -3,69 +3,12 @@
 from __future__ import annotations
 
 import argparse
-import re
 from dataclasses import dataclass
 from pathlib import Path
 from pprint import pformat
 from typing import cast
 
 from txsa_assignment.question_1 import load_text, tokenize_with_nltk
-
-
-WORDPIECE_VOCAB = {
-    "[UNK]",
-    "classification",
-    "task",
-    "choosing",
-    "correct",
-    "class",
-    "label",
-    "given",
-    "input",
-    "is",
-    "basic",
-    "tasks",
-    "each",
-    "instance",
-    "may",
-    "be",
-    "assigned",
-    "multiple",
-    "considered",
-    "isolation",
-    "from",
-    "all",
-    "other",
-    "inputs",
-    "and",
-    "the",
-    "set",
-    "of",
-    "labels",
-    "defined",
-    "advance",
-    "has",
-    "a",
-    "number",
-    "interesting",
-    "variants",
-    "for",
-    "example",
-    "in",
-    "multi",
-    "##class",
-    "open",
-    "-",
-    "not",
-    "sequence",
-    "list",
-    "are",
-    "jointly",
-    "classified",
-    ".",
-    ",",
-    ";",
-}
 
 
 @dataclass(frozen=True)
@@ -92,45 +35,13 @@ def tokenize_with_treebank(text: str) -> tuple[list[str], str]:
     return tokenize_with_nltk(text), "NLTK TreebankWordTokenizer"
 
 
-def wordpiece_tokenize_word(word: str, vocab: set[str]) -> list[str]:
-    """Apply a small WordPiece longest-match tokenizer to one word."""
-
-    if word in {".", ",", ";"}:
-        return [word]
-
-    pieces: list[str] = []
-    start = 0
-    lowered = word.casefold()
-
-    while start < len(lowered):
-        end = len(lowered)
-        match = None
-
-        while start < end:
-            piece = lowered[start:end]
-            candidate = piece if start == 0 else f"##{piece}"
-            if candidate in vocab:
-                match = candidate
-                break
-            end -= 1
-
-        if match is None:
-            return ["[UNK]"]
-
-        pieces.append(match)
-        start = end
-
-    return pieces
-
-
 def tokenize_with_wordpiece(text: str) -> tuple[list[str], str]:
-    """Tokenize with a local BERT-style WordPiece implementation."""
+    """Tokenize with BERT's pretrained WordPiece tokenizer."""
 
-    tokens: list[str] = []
-    for token in re.findall(r"[A-Za-z]+|[0-9]+|[^\w\s]", text):
-        tokens.extend(wordpiece_tokenize_word(token, WORDPIECE_VOCAB))
+    from transformers import BertTokenizerFast
 
-    return tokens, "local BERT-style WordPiece longest-match tokenizer"
+    tokenizer = BertTokenizerFast.from_pretrained("bert-base-uncased")
+    return tokenizer.tokenize(text), "BERT bert-base-uncased WordPiece tokenizer"
 
 
 def tokenize_with_stanza(text: str) -> tuple[list[str], str]:

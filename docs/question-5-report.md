@@ -63,9 +63,10 @@ smaller pieces. For example:
 multiclass -> multi, ##class
 ```
 
-The local implementation uses a small assignment-specific WordPiece vocabulary
-and longest-match splitting so it can run without downloading a pretrained BERT
-vocabulary.
+The implementation uses Hugging Face Transformers'
+`BertTokenizerFast.from_pretrained("bert-base-uncased")`, so the output comes
+from a real pretrained BERT WordPiece tokenizer rather than a manually defined
+assignment vocabulary.
 
 ### 2. Comparison With Group Tokenization Method
 

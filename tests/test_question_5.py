@@ -5,7 +5,6 @@ from txsa_assignment.question_5 import (
     build_comparisons,
     tokenize_with_treebank,
     tokenize_with_wordpiece,
-    wordpiece_tokenize_word,
 )
 
 
@@ -21,14 +20,10 @@ def test_treebank_tokenizer_matches_group_method() -> None:
     assert "." in tokens
 
 
-def test_wordpiece_splits_known_subword() -> None:
-    assert wordpiece_tokenize_word("multiclass", {"multi", "##class"}) == ["multi", "##class"]
-
-
 def test_wordpiece_tokenizer_is_deterministic() -> None:
     tokens, note = tokenize_with_wordpiece("multiclass classification.")
 
-    assert "WordPiece" in note
+    assert "bert-base-uncased" in note
     assert tokens == ["multi", "##class", "classification", "."]
 
 
