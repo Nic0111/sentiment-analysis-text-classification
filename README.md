@@ -60,14 +60,15 @@ uv run txsa-q1 data/Data_1.txt
 
 ## Notebook Submissions
 
-Q1 and Q2 are available as Jupyter notebooks:
+Q1, Q2, and Q3 are available as Jupyter notebooks:
 
 ```text
 notebooks/question_1_tokenization_filtering.ipynb
 notebooks/question_2_stemming.ipynb
+notebooks/question_3_pos_parsing.ipynb
 ```
 
-Open them from the repository root so `data/Data_1.txt` resolves correctly. The
+Open them from the repository root so the `data/` paths resolve correctly. The
 notebooks also include a fallback path for running from inside the `notebooks`
 folder.
 
